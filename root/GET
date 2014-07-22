@@ -1,6 +1,5 @@
 #!/bin/sh
 echo 'Content-Type text/html'
 echo
-echo "Hello Graphs!"
-echo $@
+echo "Hello World!"
 exit 200

@@ -4,7 +4,7 @@ require 'optparse'
 require 'rack'
 require 'pathname'
 require 'open3'
-options = {root: ".", port: 80}
+options = {root: "root", port: 8080}
 OptionParser.new do |opts|
     opts.banner = "Usage: clapi [options]"
 
@@ -32,7 +32,7 @@ class CliApp
         if not pn.exist?
             return [400, {'Content-Type' => 'text/html'}, ["404 - Not Found\n<br>\n", pn.to_s]]
         end
-        stdin, stdout, stderr, wait_thr = Open3.popen3(pn.join(method).to_s)
+        stdin, stdout, stderr, wait_thr = Open3.popen3(pn.join(method).to_s, query)
         content = stdout.gets(nil).split(/\r?\n/)
         stderr.gets(nil)
         exit_code = wait_thr.value.exitstatus
@@ -50,4 +50,4 @@ class CliApp
 end
 
 app = CliApp.new(options)
-Rack::Handler::WEBrick.run app
+Rack::Handler::WEBrick.run app, Port: options[:port]
