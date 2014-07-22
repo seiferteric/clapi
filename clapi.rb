@@ -30,7 +30,7 @@ class CliApp
         pn = Pathname.new(pn.cleanpath)
         
         if not pn.exist?
-            return [400, {'Content-Type' => 'text/html'}, ["404 - Not Found\n<br>\n", pn.to_s]]
+            return [404, {'Content-Type' => 'text/html'}, ["404 - Not Found\n<br>\n", pn.to_s]]
         end
         stdin, stdout, stderr, wait_thr = Open3.popen3(pn.join(method).to_s, query)
         content = stdout.gets(nil).split(/\r?\n/)
