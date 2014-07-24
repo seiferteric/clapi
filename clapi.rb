@@ -33,7 +33,9 @@ class CliApp
             return [404, {'Content-Type' => 'text/html'}, ["404 - Not Found\n<br>\n", pn.to_s]]
         end
         stdin, stdout, stderr, wait_thr = Open3.popen3(pn.join(method).to_s, query)
-        content = stdout.gets(nil).split(/\r?\n/)
+        content = []
+        content = stdout.gets(nil) || ""
+        content = content.split(/\r?\n/)
         stderr.gets(nil)
         exit_code = wait_thr.value.exitstatus
         headers = {}
